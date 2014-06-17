@@ -20,11 +20,11 @@ end
 
 dir_lst = [
 	# "/home/victor/share/POFO/Data/raw/r8", 
-	 "/home/victor/share/FCIC/CFAR_Ethiopia/Data/raw"
+	 "/home/victor/share/yaml"
 	]
 
 for i in dir_lst
-	stata_paths = "#{i}/code/do"
+	stata_paths = "#{i}/do"
 
 	yaml_paths = "#{i}/yaml"
 	#yaml_files = Dir["#{yaml_paths}/c8d9c08466d53c310868d557fa545ba7dd918feb.yml"]
