@@ -117,22 +117,25 @@ puts "#{sql_path}"
 dir_lst = ["#{sql_path}"]
 
 for i in dir_lst
-  sqlite_files = Dir["#{i}/*.sqlite3"]
+  #sqlite_files = Dir["#{i}/*.sqlite3"]
+  sqlite_files = Dir["#{i}/data_entry.sqlite3"]
   if sqlite_files.count > 0 
     sqlite_files.each do |sqlite_file|
       puts "\n---------- Exporting Database ---------- #{sqlite_file}"
       current_file = sqlite_file.split('/').last
       sqlite_name = current_file.split('.').first
-      Dir.mkdir("#{sqlite_name}_csv") unless Dir.exists?("#{sqlite_name}_csv")
+      #Dir.mkdir("#{sqlite_name}_csv") unless Dir.exists?("#{sqlite_name}_csv")
+      Dir.mkdir("csv") unless Dir.exists?("csv")
 
       ActiveRecord::Base.establish_connection(
         :adapter  => 'sqlite3',
         :database => "#{i}/data_entry.sqlite3")
-      csv_path = "#{i}/#{sqlite_name}_csv"
+      #csv_path = "#{i}/#{sqlite_name}_csv"
+      csv_path = "#{i}/csv"
       InstrumentVersion.find_each do |instrument_version| 
         if instrument_version.instrument && instrument_version.surveys.any?
           puts "#{instrument_version.version_hash}-------exporting to csv"
-          CSV.open("#{csv_path}/#{instrument_version.version_hash}.csv", 'w') do |csv|
+          CSV.open("#{csv_path}/new_#{instrument_version.version_hash}.csv", 'w') do |csv|
             csv << header
             instrument_version.surveys.each do |survey|
               if survey.participant && survey.participant.participant_relationships
