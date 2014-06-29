@@ -1,5 +1,4 @@
 require 'yaml'
-#YAML::ENGINE.yamler = 'syck'
 require 'ostruct'
 require 'csv'
 
