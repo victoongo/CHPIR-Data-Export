@@ -1,4 +1,5 @@
 require 'yaml'
+#YAML::ENGINE.yamler = 'syck'
 require 'ostruct'
 require 'csv'
 
@@ -86,7 +87,7 @@ if yaml_files.count > 0
                       question.type, question.question_text.original, "", ""]
             end
           end
-          puts "  # of Q = #{question_count} \n"
+          puts " Section #{section_number}: # of Q = #{question_count} \n"
         end
         stata << %Q[#delimit cr]
         path = "#{stata_path}/lab_#{hash}.do"
