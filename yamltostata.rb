@@ -19,17 +19,18 @@ def hashes2ostruct(object)
 end
 
 yaml_path = Dir.getwd
-puts "#{yaml_path}"
+
 yaml_files = Dir["#{yaml_path}/*.y*ml"]
+puts "#{yaml_files}"
 if yaml_files.count > 0 
   Dir.mkdir("stata") unless Dir.exists?("stata")
   stata_path = "#{yaml_path}/stata"
   
   yaml_files.each do |yaml_file|
     current_file = yaml_file.split('/').last
-    yaml_name = current_file.split('.').first
-    yaml_ext = current_file.split('.').last
-
+    yaml_name = current_file.rpartition('.').first
+    yaml_ext = current_file.rpartition('.').last
+    
     survey = hashes2ostruct(YAML.load_file("#{yaml_path}/#{yaml_name}.#{yaml_ext}"))
 
     hash = survey["hash"]
