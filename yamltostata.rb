@@ -21,7 +21,7 @@ end
 yaml_path = Dir.getwd
 
 yaml_files = Dir["#{yaml_path}/*.y*ml"]
-puts "#{yaml_files}"
+#puts "#{yaml_files}"
 if yaml_files.count > 0 
   Dir.mkdir("stata") unless Dir.exists?("stata")
   stata_path = "#{yaml_path}/stata"
@@ -55,8 +55,8 @@ if yaml_files.count > 0
             #puts question.uniqueid
             qid = "q_#{question.uniqueid}_#{question.identifier}"
             stata << %Q[\ncapture: rename q_#{question.uniqueid} #{qid};]
-            stata << %Q[capture: lab var #{qid} "#{question.question_text.original}";] 
-            stata << %Q[capture: notes #{qid}: "#{question.question_text.original}";]
+            stata << %Q[capture: lab var #{qid} `"#{question.question_text.original}"';] 
+            stata << %Q[capture: notes #{qid}: `"#{question.question_text.original}"';]
             stata << %Q[capture: notes #{qid}: #{question.type};]
             value_count=0
             if (question.type=="select-multiple" || question.type=="select-multiple-write-in-other") && question.response_options!=nil
