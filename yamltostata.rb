@@ -53,7 +53,8 @@ if yaml_files.count > 0
           section.questions.each do |question|
             question_count+=1
             #puts question.uniqueid
-            question_text_sub = question.question_text.original.gsub! ';', '.,'
+            question_text_sub = question.question_text.original.gsub ';', '.,'
+            #puts "#{question_text_sub}"
             qid = "q_#{question.uniqueid}_#{question.identifier}"
             stata << %Q[\ncapture: rename q_#{question.uniqueid} #{qid};]
             stata << %Q[capture: lab var #{qid} `"#{question_text_sub}"';] 
@@ -63,7 +64,7 @@ if yaml_files.count > 0
             if (question.type=="select-multiple" || question.type=="select-multiple-write-in-other") && question.response_options!=nil
               question.response_options.original.each do |val|
                 stata << %Q[capture: gen #{qid}_#{value_count}=cond(strmatch(#{qid},"*- '#{value_count}'*"),1,cond(strmatch(#{qid},"*...*"),.,0));] 
-                stata << %Q[capture: lab var #{qid}_#{value_count} `"#{val}: #{question.question_text.original}"';]
+                stata << %Q[capture: lab var #{qid}_#{value_count} `"#{val}: #{question_text_sub}"';]
                 csv << ["#{section_number}", "#{question_count}", "#{qid}", question.uniqueid, question.identifier, 
                         question.type, question.question_text.original, "#{value_count}", "#{val}"]
                 value_count+=1
