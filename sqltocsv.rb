@@ -100,9 +100,10 @@ class Interviewer < ActiveRecord::Base
 end
 
 header = ['__project_name', '__instrument_name', '__instrument_version_name', 
-  '__round_name', '__tracking_number', 
+  '__round_name', '__tracking_number', '__date_of_interview', 
   '__user_id', '__interviewer_name', '__entry_type', '__entry_id', '__created_at', '__updated_at',
-  '__participant_id', '__participant_type', '__relationship_id', '__participant_attribute_id',   
+  '__participant_id', '__participant_type', '__participant_attribute_id', '_study_id',
+  '__relationship_id', 
   "unique_id", "response", "special", "other", "edituser", "edittime"]
 
 # dir_lst = [
@@ -144,15 +145,18 @@ for i in dir_lst
                   _relationship_id.push(participant_relationship.relationship_id)
                 end
                 _participant_attribute_id = []
+                _study_id = []
                 survey.participant.participant_attributes.find_each do |participant_attribute|
                   _participant_attribute_id.push(participant_attribute.id)
+                  _study_id.push(participant_attribute.id)
                 end
                 survey.data_entries.each do |data_entry|
                   data_entry.responses.each do |response|
                     row = [instrument_version.instrument.project.name, instrument_version.instrument.name, instrument_version.version_name, 
-                        survey.round.name, survey.tracking_number, 
+                        survey.round.name, survey.tracking_number, survey.date_collected, 
                         data_entry.user_id, data_entry.interviewer.name, data_entry.entry_type, data_entry.id, data_entry.created_at, data_entry.updated_at, 
-                        survey.participant_id, survey.participant.participant_type.name, "#{_relationship_id}", "#{_participant_attribute_id}"]  
+                        survey.participant_id, survey.participant.participant_type.name, "#{_participant_attribute_id}", "#{_study_id}", 
+                        "#{_relationship_id}"]  
                     row.push(response.uniqueid, response.response, response.special_response,
                         response.other_response, response.user_id, response.updated_at)
                     csv << row
