@@ -145,10 +145,11 @@ for i in dir_lst
                   _relationship_id.push(participant_relationship.relationship_id)
                 end
                 _participant_attribute_id = []
-                _study_id = []
+                _study_id = ""
                 survey.participant.participant_attributes.find_each do |participant_attribute|
                   _participant_attribute_id.push(participant_attribute.id)
-                  _study_id.push(participant_attribute.id)
+                  _study_id = "#{_study_id}" + "---#{participant_attribute.value}"
+                  #puts "#{_study_id}"
                 end
                 survey.data_entries.each do |data_entry|
                   data_entry.responses.each do |response|
